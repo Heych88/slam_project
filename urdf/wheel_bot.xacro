@@ -157,16 +157,17 @@
   </joint>
 
 
+  <!-- RGB-D camera Kinect -->
   <joint type="fixed" name="camera_joint">
-    <origin xyz="0.2 0 0" rpy="0 0 0"/>
-    <child link="camera"/>
+    <origin xyz="0.2 0 0.1" rpy="0 0 0"/>
+    <child link="camera_link"/>
     <parent link="chassis"/>
     <axis xyz="0 1 0" rpy="0 0 0"/>
     <limit effort="10000" velocity="1000"/>
     <joint_properties damping="1.0" friction="1.0"/>
   </joint>
 
-  <link name='camera'>
+  <link name='camera_link'>
     <inertial>
       <mass value="0.1"/>
       <origin xyz="0.0 0 0" rpy=" 0 0 0"/>
@@ -178,20 +179,20 @@
     <collision name='camera_collision'>
       <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
-        <box size=".05 .05 .05"/>
+        <box size=".05 .22 .1"/>
       </geometry>
     </collision>
     <visual name='camera_visual'>
       <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
-        <box size=".05 .05 .05"/>
+        <mesh filename="package://rtab_slam/meshes/kinect.dae"/>
       </geometry>
     </visual>
   </link>
 
   <!-- laser scanner -->
   <joint type="fixed" name="hokuyo_joint">
-    <origin xyz="0.15 0 0.1" rpy="0 0 0"/>
+    <origin xyz="0.1 0 0.125" rpy="0 0 0"/>
     <child link="hokuyo"/>
     <parent link="chassis"/>
     <axis xyz="0 1 0" rpy="0 0 0"/>
@@ -218,7 +219,7 @@
     <visual name='hokuyo_visual'>
       <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
-        <mesh filename="package://udacity_bot/meshes/hokuyo.dae"/>
+        <mesh filename="package://rtab_slam/meshes/hokuyo.dae"/>
       </geometry>
     </visual>
   </link>
