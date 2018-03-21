@@ -4,6 +4,8 @@
 
   <xacro:include filename="$(find rtab_slam)/urdf/wheel_bot.gazebo" />
 
+  <xacro:property name="M_PI" value="3.14159" />
+
   <link name="robot_footprint"></link>
 
   <joint name="robot_footprint_joint" type="fixed">
@@ -190,9 +192,22 @@
     </visual>
   </link>
 
+  <!-- depth cloud transform for RViz
+      Code modified from sealguy77 from ROS answers
+      https://answers.ros.org/question/206823/kinect-frame/ -->
+  <joint name="kinect_depth_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+    <parent link="camera_link" />
+    <child link="kinect_depth_optical_frame" />
+  </joint>
+  <!-- link to this frame to transform the point cloud -->
+  <!-- <frameName>kinect_depth_optical_frame</frameName> -->
+  <link name="kinect_depth_optical_frame" />
+
+
   <!-- laser scanner -->
   <joint type="fixed" name="hokuyo_joint">
-    <origin xyz="0.1 0 0.125" rpy="0 0 0"/>
+    <origin xyz="0.1 0 0.15" rpy="0 0 0"/>
     <child link="hokuyo"/>
     <parent link="chassis"/>
     <axis xyz="0 1 0" rpy="0 0 0"/>

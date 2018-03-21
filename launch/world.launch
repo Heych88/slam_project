@@ -24,4 +24,7 @@
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false"
   output="screen" args="-urdf -param robot_description -model wheel_bot"/>
 
+  <!-- For visualising your robots map bulding in RVIZ -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rtab_slam)/config/robot_slam.rviz"/>
+
 </launch>
