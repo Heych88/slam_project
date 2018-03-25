@@ -23,8 +23,8 @@
       <wheelDiameter>0.2</wheelDiameter>
       <torque>10</torque>
       <commandTopic>/teleop/cmd_vel</commandTopic>
-      <odometryTopic>/slam/odom</odometryTopic>
-      <odometryFrame>/slam/odom</odometryFrame>
+      <odometryTopic>/odom</odometryTopic>
+      <odometryFrame>/odom</odometryFrame>
       <robotBaseFrame>robot_footprint</robotBaseFrame>
     </plugin>
   </gazebo>
@@ -53,11 +53,11 @@
        <alwaysOn>true</alwaysOn>
        <updateRate>15.0</updateRate>
        <cameraName>camera</cameraName>
-       <imageTopicName>/kinect_camera/rgb/image_raw</imageTopicName>
-       <cameraInfoTopicName>/kinect_camera/rgb/camera_info</cameraInfoTopicName>
-       <depthImageTopicName>/kinect_camera/depth_registered/image_raw</depthImageTopicName>
-       <depthImageCameraInfoTopicName>/kinect_camera/depth_registered/camera_info</depthImageCameraInfoTopicName>
-       <pointCloudTopicName>/kinect_camera/depth_registered/points</pointCloudTopicName>
+       <imageTopicName>/kinect/rgb/image_raw</imageTopicName>
+       <cameraInfoTopicName>/kinect/rgb/camera_info</cameraInfoTopicName>
+       <depthImageTopicName>/kinect/depth/image_raw</depthImageTopicName>
+       <depthImageCameraInfoTopicName>/kinect/depth/camera_info</depthImageCameraInfoTopicName>
+       <pointCloudTopicName>/kinect/depth/points</pointCloudTopicName>
        <frameName>camera_rgb_optical_frame</frameName>
        <pointCloudCutoff>0.5</pointCloudCutoff>
        <pointCloudCutoffMax>8.0</pointCloudCutoffMax>
