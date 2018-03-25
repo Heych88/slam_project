@@ -1,51 +1,65 @@
-<?xml version='1.0'?>
+<?xml version="1.0" ?>
+<robot name="wheel_bot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<robot name="rtab_slam" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Define constants -->
+  <xacro:property name="M_PI" value="3.1415926535897931" />
 
-  <xacro:include filename="$(find rtab_slam)/urdf/wheel_bot.gazebo" />
+  <xacro:property name="robot_base_link" value="chassis" />
 
-  <xacro:property name="M_PI" value="3.14159" />
+  <xacro:property name="caster_back_radius" value="0.0495" />
+  <xacro:property name="caster_front_radius" value="0.05" />
+  <xacro:property name="caster_offset_x" value="0.15" />
+  <xacro:property name="caster_offset_y" value="0.0" />
+  <xacro:property name="caster_offset_z" value="-0.05" />
 
+  <xacro:property name="base_length" value="0.4" />
+  <xacro:property name="base_width" value="0.2" />
+  <xacro:property name="base_height" value="0.1" />
+  <xacro:property name="base_mass" value="15.0" />
+  <xacro:property name="base_ixx" value="${base_mass * (base_width*base_width + base_height*base_height) / 12.0}" />
+  <xacro:property name="base_iyy" value="${base_mass * (base_length*base_length + base_height*base_height) / 12.0}" />
+  <xacro:property name="base_izz" value="${base_mass * (base_length*base_length + base_width*base_height) / 12.0}" />
+
+  <xacro:include filename="$(find slam_project)/urdf/wheel_bot.gazebo" />
+  <xacro:include filename="$(find slam_project)/urdf/sensor.xacro" />
+  <xacro:include filename="$(find slam_project)/urdf/wheels.xacro" />
+
+  <!--Links-->
   <link name="robot_footprint"></link>
 
   <joint name="robot_footprint_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="robot_footprint"/>
-    <child link="chassis" />
+    <child link="${robot_base_link}" />
   </joint>
 
-  <link name='chassis'>
+  <link name='${robot_base_link}'>
     <pose>0 0 0.1 0 0 0</pose>
-
     <inertial>
-      <mass value="15.0"/>
-      <origin xyz="0.0 0 0" rpy=" 0 0 0"/>
+      <mass value="${base_mass}"/>
+      <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <inertia
-          ixx="0.1" ixy="0" ixz="0"
-          iyy="0.1" iyz="0"
-          izz="0.1"
-      />
-    </inertial>
-
-    <collision name='collision'>
+        ixx="${base_ixx}" ixy="0" ixz="0"
+        iyy="${base_iyy}" iyz="0"
+        izz="${base_izz}" />
+      </inertial>
+    <collision>
       <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
-        <box size=".4 .2 .1"/>
+        <box size="${base_length} ${base_width} ${base_height}"/>
       </geometry>
     </collision>
-
-    <visual name='chassis_visual'>
+    <visual>
       <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
-        <box size=".4 .2 .1"/>
+        <box size="${base_length} ${base_width} ${base_height}"/>
       </geometry>
     </visual>
 
-
     <collision name='back_caster_collision'>
-      <origin xyz="-0.15 0 -0.05" rpy=" 0 0 0"/>
+      <origin xyz="${-caster_offset_x} ${caster_offset_y} ${caster_offset_z}" rpy=" 0 0 0"/>
       <geometry>
-        <sphere radius="0.0495"/>
+        <sphere radius="${caster_back_radius}"/>
       </geometry>
       <surface>
         <friction>
@@ -58,18 +72,17 @@
         </friction>
       </surface>
     </collision>
-
     <visual name='back_caster_visual'>
-      <origin xyz="-0.15 0 -0.05" rpy=" 0 0 0"/>
+      <origin xyz="${-caster_offset_x} ${caster_offset_y} ${caster_offset_z}" rpy=" 0 0 0"/>
       <geometry>
-        <sphere radius="0.0495"/>
+        <sphere radius="${caster_back_radius}"/>
       </geometry>
     </visual>
 
     <collision name='front_caster_collision'>
-      <origin xyz="0.15 0 -0.05" rpy=" 0 0 0"/>
+      <origin xyz="${caster_offset_x} ${caster_offset_y} ${caster_offset_z}" rpy=" 0 0 0"/>
       <geometry>
-        <sphere radius="0.05"/>
+        <sphere radius="${caster_front_radius}"/>
       </geometry>
       <surface>
         <friction>
@@ -82,159 +95,10 @@
         </friction>
       </surface>
     </collision>
-
     <visual name='front_caster_visual'>
-      <origin xyz="0.15 0 -0.05" rpy=" 0 0 0"/>
+      <origin xyz="${caster_offset_x} ${caster_offset_y} ${caster_offset_z}" rpy=" 0 0 0"/>
       <geometry>
-        <sphere radius="0.05"/>
-      </geometry>
-    </visual>
-
-  </link>
-
-
-  <link name="left_wheel">
-    <inertial>
-      <mass value="5.0"/>
-      <origin xyz="0.0 0 0" rpy=" 0 1.5707 1.5707"/>
-      <inertia
-          ixx="0.1" ixy="0" ixz="0"
-          iyy="0.1" iyz="0"
-          izz="0.1" />
-    </inertial>
-    <collision name="left_wheel_collision">
-      <origin xyz="0 0 0" rpy=" 0 1.5707 1.5707"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.1"/>
-      </geometry>
-    </collision>
-    <visual name="left_wheel_visual">
-      <origin xyz="0 0 0" rpy=" 0 1.5707 1.5707"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.1"/>
-      </geometry>
-    </visual>
-  </link>
-
-  <joint type="continuous" name="left_wheel_hinge">
-    <origin xyz="0 0.15 0" rpy="0 0 0"/>
-    <child link="left_wheel"/>
-    <parent link="chassis"/>
-    <axis xyz="0 1 0" rpy="0 0 0"/>
-    <limit effort="10000" velocity="1000"/>
-    <joint_properties damping="1.0" friction="1.0"/>
-  </joint>
-
-
-  <link name="right_wheel">
-    <inertial>
-      <mass value="5.0"/>
-      <origin xyz="0.0 0 0" rpy=" 0 1.5707 1.5707"/>
-      <inertia
-          ixx="0.1" ixy="0" ixz="0"
-          iyy="0.1" iyz="0"
-          izz="0.1" />
-    </inertial>
-    <collision name="right_wheel_collision">
-      <origin xyz="0 0 0" rpy=" 0 1.5707 1.5707"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.1"/>
-      </geometry>
-    </collision>
-    <visual name="right_wheel_visual">
-      <origin xyz="0 0 0" rpy=" 0 1.5707 1.5707"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.1"/>
-      </geometry>
-    </visual>
-  </link>
-
-  <joint type="continuous" name="right_wheel_hinge">
-    <origin xyz="0 -0.15 0" rpy="0 0 0"/>
-    <child link="right_wheel"/>
-    <parent link="chassis"/>
-    <axis xyz="0 1 0" rpy="0 0 0"/>
-    <limit effort="10000" velocity="1000"/>
-    <joint_properties damping="1.0" friction="1.0"/>
-  </joint>
-
-
-  <!-- RGB-D camera Kinect -->
-  <joint type="fixed" name="camera_joint">
-    <origin xyz="0.2 0 0.1" rpy="0 0 0"/>
-    <child link="camera_link"/>
-    <parent link="chassis"/>
-    <axis xyz="0 1 0" rpy="0 0 0"/>
-    <limit effort="10000" velocity="1000"/>
-    <joint_properties damping="1.0" friction="1.0"/>
-  </joint>
-
-  <link name='camera_link'>
-    <inertial>
-      <mass value="0.1"/>
-      <origin xyz="0.0 0 0" rpy=" 0 0 0"/>
-      <inertia
-          ixx="1e-6" ixy="0" ixz="0"
-          iyy="1e-6" iyz="0"
-          izz="1e-6"/>
-    </inertial>
-    <collision name='camera_collision'>
-      <origin xyz="-0.03 0 -0.015" rpy=" 0 0 0"/>
-      <geometry>
-        <box size="0.06 0.28 0.073" />
-      </geometry>
-    </collision>
-    <visual name='camera_visual'>
-      <origin xyz="0 0 0" rpy=" 0 0 0"/>
-      <geometry>
-        <mesh filename="package://rtab_slam/meshes/kinect.dae"/>
-      </geometry>
-    </visual>
-  </link>
-
-  <!-- depth cloud transform for RViz
-      Code modified from sealguy77 from ROS answers
-      https://answers.ros.org/question/206823/kinect-frame/ -->
-  <joint name="kinect_depth_optical_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-    <parent link="camera_link" />
-    <child link="kinect_depth_optical_frame" />
-  </joint>
-  <!-- link to this frame to transform the point cloud -->
-  <!-- <frameName>kinect_depth_optical_frame</frameName> -->
-  <link name="kinect_depth_optical_frame" />
-
-
-  <!-- laser scanner -->
-  <joint type="fixed" name="hokuyo_joint">
-    <origin xyz="0.1 0 0.125" rpy="0 0 0"/>
-    <child link="hokuyo"/>
-    <parent link="chassis"/>
-    <axis xyz="0 1 0" rpy="0 0 0"/>
-    <limit effort="10000" velocity="1000"/>
-    <joint_properties damping="1.0" friction="1.0"/>
-  </joint>
-
-  <link name='hokuyo'>
-    <pose>0 0 0 0 0 0</pose>
-    <inertial>
-      <mass value="0.1"/>
-      <origin xyz="0 0 0" rpy=" 0 0 0"/>
-      <inertia
-          ixx="1e-6" ixy="0" ixz="0"
-          iyy="1e-6" iyz="0"
-          izz="1e-6" />
-    </inertial>
-    <collision name='hokuyo_collision'>
-      <origin xyz="0 0 0" rpy=" 0 0 0"/>
-      <geometry>
-        <box size=".1 .1 .1"/>
-      </geometry>
-    </collision>
-    <visual name='hokuyo_visual'>
-      <origin xyz="0 0 0" rpy=" 0 0 0"/>
-      <geometry>
-        <mesh filename="package://rtab_slam/meshes/hokuyo.dae"/>
+        <sphere radius="${caster_front_radius}"/>
       </geometry>
     </visual>
   </link>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!-- For controlling the robots with a keyboard -->
-
-<launch>
-  <node name="teleop" pkg="rtab_slam" type="teleop.py" output="screen"/>
-</launch>

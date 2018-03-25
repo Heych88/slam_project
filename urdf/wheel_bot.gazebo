@@ -1,83 +1,76 @@
 <?xml version="1.0"?>
-<robot>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <gazebo reference="chassis_left_wheel_link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+  <gazebo reference="chassis_right_wheel_link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
   <gazebo reference="chassis">
-    <material>Gazebo/Red</material>
-  </gazebo>
-  <gazebo reference="left_wheel">
-    <material>Gazebo/Black</material>
-  </gazebo>
-  <gazebo reference="right_wheel">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Orange</material>
   </gazebo>
 
+  <!-- wheel motors -->
   <gazebo>
     <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
       <legacyMode>false</legacyMode>
       <alwaysOn>true</alwaysOn>
       <updateRate>10</updateRate>
-      <leftJoint>left_wheel_hinge</leftJoint>
-      <rightJoint>right_wheel_hinge</rightJoint>
+      <leftJoint>left_wheel_joint</leftJoint>
+      <rightJoint>right_wheel_joint</rightJoint>
       <wheelSeparation>0.4</wheelSeparation>
       <wheelDiameter>0.2</wheelDiameter>
       <torque>10</torque>
-      <commandTopic>teleop/cmd_vel</commandTopic>
-      <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
+      <commandTopic>/teleop/cmd_vel</commandTopic>
+      <odometryTopic>/slam/odom</odometryTopic>
+      <odometryFrame>/slam/odom</odometryFrame>
       <robotBaseFrame>robot_footprint</robotBaseFrame>
     </plugin>
   </gazebo>
 
+  <!--RGBD camera -->
+  <gazebo reference="camera_rgb_frame">
+   <sensor type="depth" name="camera">
+     <always_on>true</always_on>
+     <visualize>false</visualize>
+     <update_rate>15.0</update_rate>
+     <camera name="front">
+       <horizontal_fov>1.5</horizontal_fov><!--default=1.047197-->
+       <image>
+         <!-- openni_kinect plugin works only with BGR8 -->
+         <format>B8G8R8</format>
+         <width>1024</width>
+         <height>576</height>
+       </image>
+       <clip>
+         <near>0.01</near>
+         <far>9</far>
+       </clip>
+     </camera>
+     <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+       <baseline>0.1</baseline>
+       <alwaysOn>true</alwaysOn>
+       <updateRate>15.0</updateRate>
+       <cameraName>camera</cameraName>
+       <imageTopicName>/kinect_camera/rgb/image_raw</imageTopicName>
+       <cameraInfoTopicName>/kinect_camera/rgb/camera_info</cameraInfoTopicName>
+       <depthImageTopicName>/kinect_camera/depth_registered/image_raw</depthImageTopicName>
+       <depthImageCameraInfoTopicName>/kinect_camera/depth_registered/camera_info</depthImageCameraInfoTopicName>
+       <pointCloudTopicName>/kinect_camera/depth_registered/points</pointCloudTopicName>
+       <frameName>camera_rgb_optical_frame</frameName>
+       <pointCloudCutoff>0.5</pointCloudCutoff>
+       <pointCloudCutoffMax>8.0</pointCloudCutoffMax>
+       <CxPrime>0</CxPrime>
+       <Cx>0</Cx>
+       <Cy>0</Cy>
+       <focalLength>0</focalLength>
+       <hackBaseline>0</hackBaseline>
+     </plugin>
+   </sensor>
+ </gazebo>
 
-  <!-- RGB-D camera Kinect -->
-  <!-- RGBD Camera -->
-  <!-- RGBD Camera -->
-  <gazebo reference="camera_link">
-    <sensor type="depth" name="camera1">
-        <always_on>1</always_on>
-        <update_rate>20.0</update_rate>
-        <visualize>true</visualize>
-        <camera>
-            <horizontal_fov>1.047</horizontal_fov>
-            <image>
-                <width>640</width>
-                <height>480</height>
-                <format>R8G8B8</format>
-            </image>
-            <depth_camera>
-
-            </depth_camera>
-            <clip>
-                <near>0.1</near>
-                <far>20</far>
-            </clip>
-        </camera>
-             <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
-             <alwaysOn>true</alwaysOn>
-                <updateRate>10.0</updateRate>
-                <cameraName>camera</cameraName>
-                <frameName>kinect_depth_optical_frame</frameName>
-            <imageTopicName>/rgb/image_raw</imageTopicName>
-            <depthImageTopicName>/depth/image_raw</depthImageTopicName>
-            <pointCloudTopicName>/depth/points</pointCloudTopicName>
-            <cameraInfoTopicName>/rgb/camera_info</cameraInfoTopicName>
-            <depthImageCameraInfoTopicName>/depth/camera_info</depthImageCameraInfoTopicName>
-            <pointCloudCutoff>0.4</pointCloudCutoff>
-                <hackBaseline>0.07</hackBaseline>
-                <distortionK1>0.0</distortionK1>
-                <distortionK2>0.0</distortionK2>
-                <distortionK3>0.0</distortionK3>
-                <distortionT1>0.0</distortionT1>
-                <distortionT2>0.0</distortionT2>
-            <CxPrime>0.0</CxPrime>
-            <Cx>0.0</Cx>
-            <Cy>0.0</Cy>
-            <focalLength>0.0</focalLength>
-            </plugin>
-    </sensor>
-  </gazebo>
-
-
-  <!-- hokuyo -->
+ <!-- hokuyo laser sensor -->
   <gazebo reference="hokuyo">
     <sensor type="ray" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
@@ -108,7 +101,7 @@
         </noise>
       </ray>
       <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/scan</topicName>
+        <topicName>/laser_scan</topicName>
         <frameName>hokuyo</frameName>
       </plugin>
     </sensor>
