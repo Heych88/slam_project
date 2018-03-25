@@ -7,8 +7,8 @@
 
   <xacro:property name="wheel_length" value="0.05" />
   <xacro:property name="wheel_radius" value="0.1" />
-  <xacro:property name="wheel_mass" value="3" />
-  <xacro:property name="wheel_offset_x" value="0.0" />
+  <xacro:property name="wheel_mass" value="5" />
+  <xacro:property name="wheel_offset_x" value="0" />
   <xacro:property name="wheel_offset_y" value="0.15" />
   <xacro:property name="wheel_ixx" value="${wheel_mass * (3.0*wheel_radius*wheel_radius + wheel_length*wheel_length) / 12.0}" />
   <xacro:property name="wheel_iyy" value="${wheel_mass * wheel_radius*wheel_radius / 2.0}" />
@@ -16,35 +16,37 @@
 
   <!-- Wheels -->
   <xacro:macro name="drive_wheel" params="suffix parent reflect">
-    <joint name="${suffix}_wheel_joint" type="continuous">
-      <axis xyz="0 1 0" />
-      <origin xyz="${wheel_offset_x} ${wheel_offset_y*reflect} 0" rpy="0 ${M_PI/2} ${M_PI/2}" />
-      <parent link="${parent}"/>
-      <child link="${parent}_${suffix}_wheel_link"/>
-    </joint>
-
     <link name="${parent}_${suffix}_wheel_link">
       <inertial>
-        <mass value="${wheel_mass}" />
-        <origin xyz="0 0 0" />
+        <mass value="${wheel_mass}"/>
+        <origin xyz="0 0 0" rpy=" 0 ${M_PI/2.0} ${M_PI/2.0}"/>
         <inertia
           ixx="${wheel_ixx}" ixy="0" ixz="0"
           iyy="${wheel_iyy}" iyz="0"
           izz="${wheel_izz}" />
         </inertial>
+      <collision>
+        <origin xyz="0 0 0" rpy=" 0 ${M_PI/2.0} ${M_PI/2.0}"/>
+        <geometry>
+          <cylinder length="${wheel_length}" radius="${wheel_radius}"/>
+        </geometry>
+      </collision>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy=" 0 ${M_PI/2.0} ${M_PI/2.0}"/>
         <geometry>
           <cylinder length="${wheel_length}" radius="${wheel_radius}"/>
         </geometry>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" /> <!-- rotation because cyl. geom primitive has symmetry axis in +x direction -->
-        <geometry>
-          <cylinder radius="${wheel_radius}" length="${wheel_length}" />
-        </geometry>
-      </collision>
     </link>
+
+    <joint type="continuous" name="${suffix}_wheel_joint">
+      <origin xyz="${wheel_offset_x} ${wheel_offset_y*reflect} 0" rpy="0 0 0"/>
+      <child link="${parent}_${suffix}_wheel_link"/>
+      <parent link="${parent}"/>
+      <axis xyz="0 1 0" rpy="0 0 0"/>
+      <limit effort="10000" velocity="1000"/>
+      <joint_properties damping="1.0" friction="1.0"/>
+    </joint>
   </xacro:macro>
 
   <xacro:drive_wheel parent="${parent_link}" suffix="left" reflect="1" />
