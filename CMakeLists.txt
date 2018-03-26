@@ -16,7 +16,6 @@ find_package(catkin REQUIRED COMPONENTS
   geometric_shapes
 	gazebo_msgs
   pluginlib
-  moveit_core
 )
 
 ## System dependencies are found with CMake's conventions
@@ -74,11 +73,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  geometry_msgs
-  std_msgs
-)
+#generate_messages(
+#  DEPENDENCIES
+#  geometry_msgs
+#  std_msgs
+#)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##

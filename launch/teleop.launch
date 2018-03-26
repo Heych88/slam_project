@@ -3,5 +3,5 @@
 <!-- For controlling the robots with a keyboard -->
 
 <launch>
-  <node name="teleop" pkg="rtab_slam" type="teleop.py" output="screen"/>
+  <node name="teleop" pkg="slam_project" type="teleop.py" output="screen"/>
 </launch>

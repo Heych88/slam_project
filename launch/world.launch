@@ -25,6 +25,6 @@
   output="screen" args="-urdf -param robot_description -model wheel_bot"/>
 
   <!-- For visualising your robots map bulding in RVIZ -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rtab_slam)/config/slam_project.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_project)/config/robot_slam.rviz"/>
 
 </launch>

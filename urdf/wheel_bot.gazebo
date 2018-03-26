@@ -25,7 +25,7 @@
       <commandTopic>/teleop/cmd_vel</commandTopic>
       <odometryTopic>/odom</odometryTopic>
       <odometryFrame>/odom</odometryFrame>
-      <robotBaseFrame>robot_footprint</robotBaseFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
     </plugin>
   </gazebo>
 
@@ -53,11 +53,11 @@
        <alwaysOn>true</alwaysOn>
        <updateRate>15.0</updateRate>
        <cameraName>camera</cameraName>
-       <imageTopicName>/kinect/rgb/image_raw</imageTopicName>
-       <cameraInfoTopicName>/kinect/rgb/camera_info</cameraInfoTopicName>
-       <depthImageTopicName>/kinect/depth/image_raw</depthImageTopicName>
-       <depthImageCameraInfoTopicName>/kinect/depth/camera_info</depthImageCameraInfoTopicName>
-       <pointCloudTopicName>/kinect/depth/points</pointCloudTopicName>
+       <imageTopicName>/rtabmap/rgb/image</imageTopicName>
+       <cameraInfoTopicName>/rtabmap/rgb/camera_info</cameraInfoTopicName>
+       <depthImageTopicName>/rtabmap/depth/image</depthImageTopicName>
+       <depthImageCameraInfoTopicName>/rtabmap/depth/camera_info</depthImageCameraInfoTopicName>
+       <pointCloudTopicName>/rtabmap/depth/points</pointCloudTopicName>
        <frameName>camera_rgb_optical_frame</frameName>
        <pointCloudCutoff>0.5</pointCloudCutoff>
        <pointCloudCutoffMax>8.0</pointCloudCutoffMax>
@@ -101,7 +101,7 @@
         </noise>
       </ray>
       <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/laser_scan</topicName>
+        <topicName>/rtabmap/scan</topicName>
         <frameName>hokuyo</frameName>
       </plugin>
     </sensor>

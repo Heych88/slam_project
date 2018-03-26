@@ -3,9 +3,9 @@
 <launch>
   <!-- Arguments for launch file with defaults provided -->
   <arg name="database_path"     default="rtabmap.db"/>
-  <arg name="rgb_topic"   default="/camera/rgb/image_raw"/>
-  <arg name="depth_topic" default="/camera/depth/image_raw"/>
-  <arg name="camera_info_topic" default="/camera/rgb/camera_info"/>
+  <arg name="rgb_topic"   default="/rtabmap/rgb/image"/>
+  <arg name="depth_topic" default="/rtabmap/depth/image"/>
+  <arg name="camera_info_topic" default="/rtabmap/rgb/camera_info"/>
 
 
   <!-- Mapping Node -->
@@ -20,10 +20,10 @@
       <param name="subscribe_scan"      type="bool"   value="true"/>
 
       <!-- RTAB-Map Inputs -->
-      <remap from="/laser_scan"            to="/scan"/>
-      <remap from="/kinect_camera/rgb/image_raw"  to="$(arg rgb_topic)"/>
-      <remap from="/kinect_camera/depth_registered/image_raw"     to="$(arg depth_topic)"/>
-      <remap from="/kinect_camera/rgb/camera_info" to="$(arg camera_info_topic)"/>
+      <!--<remap from="/laser_scan"            to="/rtabmap/scan"/>
+      <remap from="/kinect/rgb/image_raw"  to="$(arg rgb_topic)"/>
+      <remap from="/kinect/depth/image_raw"     to="$(arg depth_topic)"/>
+      <remap from="/kinect/rgb/camera_info" to="$(arg camera_info_topic)"/>-->
 
       <!-- RTAB-Map Output -->
       <remap from="grid_map" to="/map"/>
