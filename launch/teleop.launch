@@ -3,5 +3,8 @@
 <!-- For controlling the robots with a keyboard -->
 
 <launch>
-  <node name="teleop" pkg="slam_project" type="teleop.py" output="screen"/>
+  <node name="teleop" pkg="slam_project" type="teleop.py" output="screen">
+    <remap from="/teleop/cmd_vel" to="/cmd_vel" />
+  </node>
+
 </launch>
