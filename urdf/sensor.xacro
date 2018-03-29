@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
-
-  <xacro:property name="M_PI" value="3.14159265" />
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Define constants -->
+  <xacro:property name="M_PI" value="3.1415926535897931" />
   <xacro:property name="parent_link" value="chassis" />
+
+  <xacro:property name="kinect_offset_x" value="${base_length/2}" />
+  <xacro:property name="kinect_offset_z" value="0.1" />
+  <xacro:property name="laser_offset_x" value="${base_length/2 + 0.01}" />
+  <xacro:property name="laser_offset_z" value="0" />
 
   <!-- RGBD camera -->
   <link name="camera_link">
@@ -28,7 +33,7 @@
   <link name="camera_rgb_frame" />
 
   <joint name="camera_link_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.2 0 0.1" />
+    <origin rpy="0 0 0" xyz="${kinect_offset_x} 0 ${kinect_offset_z}" />
     <parent link="${parent_link}" />
     <child link="camera_link" />
   </joint>
@@ -82,7 +87,7 @@
   </link>
 
   <joint type="fixed" name="hokuyo_joint">
-    <origin xyz="0.1 0 0.14" rpy="0 0 0"/>
+    <origin xyz="${laser_offset_x} 0 ${laser_offset_z}" rpy="0 0 0"/>
     <child link="hokuyo"/>
     <parent link="${parent_link}"/>
     <axis xyz="0 1 0" rpy="0 0 0"/>
