@@ -22,12 +22,6 @@
 
       <remap from="move_base_simple/goal" to="/planner/move_base_simple/goal"/>
 
-      <!-- RTAB-Map Inputs -->
-      <!--<remap from="/laser_scan"            to="/rtabmap/scan"/>
-      <remap from="/kinect/rgb/image_raw"  to="$(arg rgb_topic)"/>
-      <remap from="/kinect/depth/image_raw"     to="$(arg depth_topic)"/>
-      <remap from="/kinect/rgb/camera_info" to="$(arg camera_info_topic)"/>-->
-
       <!-- RTAB-Map Output -->
       <remap from="grid_map" to="/map"/>
 
