@@ -49,7 +49,7 @@
     </joint>
   </xacro:macro>
 
-  <xacro:drive_wheel parent="${parent_link}" suffix="left" reflect="-1" />
-  <xacro:drive_wheel parent="${parent_link}" suffix="right" reflect="1" />
+  <xacro:drive_wheel parent="${parent_link}" suffix="left" reflect="1" />
+  <xacro:drive_wheel parent="${parent_link}" suffix="right" reflect="-1" />
 
 </robot>
