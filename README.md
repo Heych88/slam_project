@@ -31,7 +31,7 @@ Clone this repository in your catkin workspace 'src/' folder.
 
 ```sh
 $ cd ~/catkin_ws/src/
-$ git clone https://github.com/Heych88/skid_steer_bot.git
+$ git clone https://github.com/Heych88/slam_project.git
 ```
 
 Now install missing dependencies using rosdep install:
