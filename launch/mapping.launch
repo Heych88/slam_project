@@ -19,11 +19,10 @@
       <param name="subscribe_depth"     type="bool"   value="true"/>
       <param name="subscribe_scan"      type="bool"   value="true"/>
 
-      <!-- RTAB-Map Inputs -->
-      <!--<remap from="/laser_scan"            to="/rtabmap/scan"/>
-      <remap from="/kinect/rgb/image_raw"  to="$(arg rgb_topic)"/>
-      <remap from="/kinect/depth/image_raw"     to="$(arg depth_topic)"/>
-      <remap from="/kinect/rgb/camera_info" to="$(arg camera_info_topic)"/>-->
+      <!-- Mapping Maximum depth of the clouds added to cloud map. Set 0.0 to maximum depth filtering. -->
+      <param name="cloud_max_depth" value="4.0" /> <!-- 4.0 -->
+      <!-- Maximum depth of the laser scans generated. -->
+      <param name="gen_scan_max_depth" value="4.0" /> <!-- 4.0 -->
 
       <!-- RTAB-Map Output -->
       <remap from="grid_map" to="/map"/>
@@ -32,6 +31,7 @@
       <param name="Rtabmap/DetectionRate" type="string" value="1"/>
 
       <!-- 2D SLAM -->
+      <!-- Force 3 degrees-of-freedom transform (3Dof: x,y and yaw) -->
       <param name="Reg/Force3DoF" type="string" value="true"/>
 
       <!-- Loop Closure Detection -->
@@ -45,11 +45,12 @@
       <param name="SURF/HessianThreshold" type="string" value="100"/>
 
       <!-- Loop Closure Constraint -->
-      <!-- 0=Visual, 1=ICP (1 requires scan)-->
+      <!-- 0=Visual, 1=Iterative Closest Point (ICP) (requires scan), 2=Visual + ICP-->
+      <!-- https://github.com/introlab/rtabmap/wiki/ICP -->
       <param name="Reg/Strategy" type="string" value="0"/>
 
       <!-- Minimum visual inliers to accept loop closure -->
-      <param name="Vis/MinInliers" type="string" value="15"/>
+      <param name="Vis/MinInliers" type="string" value="20"/>
 
       <!-- Set to false to avoid saving data when robot is not moving -->
       <param name="Mem/NotLinkedNodesKept" type="string" value="false"/>

@@ -22,11 +22,16 @@
 
       <remap from="move_base_simple/goal" to="/planner/move_base_simple/goal"/>
 
+      <!-- Mapping Maximum depth of the clouds added to cloud map. Set 0.0 to maximum depth filtering. -->
+      <param name="cloud_max_depth" value="4.0" /> <!-- 4.0 -->
+      <!-- Maximum depth of the laser scans generated. -->
+      <param name="gen_scan_max_depth" value="4.0" /> <!-- 4.0 -->
+
       <!-- RTAB-Map Output -->
       <remap from="grid_map" to="/map"/>
 
       <!-- Rate (Hz) at which new nodes are added to map -->
-      <param name="Rtabmap/DetectionRate" type="string" value="1"/>
+      <param name="Rtabmap/DetectionRate" type="string" value="2"/>
 
       <!-- 2D SLAM -->
       <param name="Reg/Force3DoF" type="string" value="true"/>
@@ -42,14 +47,15 @@
       <param name="SURF/HessianThreshold" type="string" value="100"/>
 
       <!-- Loop Closure Constraint -->
-      <!-- 0=Visual, 1=ICP (1 requires scan)-->
+      <!-- 0=Visual, 1=Iterative Closest Point (ICP) (requires scan), 2=Visual + ICP-->
+      <!-- https://github.com/introlab/rtabmap/wiki/ICP -->
       <param name="Reg/Strategy" type="string" value="0"/>
 
       <!-- Minimum visual inliers to accept loop closure -->
       <param name="Vis/MinInliers" type="string" value="15"/>
 
-      <!-- Set to false to avoid saving data when robot is not moving -->
-      <param name="Mem/IncrementalMemory" type="string" value="false"/>
+      <!--  -->
+      <!--<param name="Mem/IncrementalMemory" type="string" value="false"/> -->
     </node>
   </group>
 
